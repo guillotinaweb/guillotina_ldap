@@ -47,6 +47,6 @@ async def test_ldap_auth(ldap, container_install_requester):
         assert status_code == 200
 
         resp, status_code = await requester(
-            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(settings.user_data)
+            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(user_data)
         )
-        assert status_code == 401
+        assert status_code == 200
