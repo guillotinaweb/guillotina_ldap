@@ -42,14 +42,16 @@ class LDAPUtility:
         if  self.managerdn is not None:
             self.client.set_credentials("SIMPLE", user=self.managerdn, password=self.managerpwd)
             retries = 0
-            while(retries < 3):
+            conected = None
+            while(retries < 3 and conected is None):
                 try:
                     async with self.client.connect(is_async=True) as conn:
                         conected = await conn.whoami()
                         logger.info(f"Connected with user {conected}")
                         self.initialized = True
                 except ConnectionError:
-                    retries += 1
+                    pass
+                retries += 1
         if self.initialized is False:
             logger.error(f"NOT connected to LDAP server {self.host}")
 
