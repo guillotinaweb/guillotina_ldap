@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a3 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fix LDAP Search.
+  [bloodbare]
 
 
 1.0.0a2 (2020-11-11)
