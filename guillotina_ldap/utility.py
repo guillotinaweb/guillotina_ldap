@@ -67,7 +67,7 @@ class LDAPUtility:
 
         exist = False
         async with self.client.connect(is_async=True) as conn:
-            results = await conn.search(self.user(login), 0)
+            results = await conn.search(self.user(login), 1)
             if len(results) > 0:
                 exist = True
         LOCAL_CACHE[cache_key] = exist
@@ -92,7 +92,7 @@ class LDAPUtility:
 
     async def search_user(self, login):
         async with self.client.connect(is_async=True) as conn:
-            results = await conn.search(self.user(login), 0)
+            results = await conn.search(self.user(login), 1)
             for res in results:
                 print(res['givenName'][0])
 
@@ -119,7 +119,7 @@ class LDAPUtility:
         client = LDAPClient(self.host, self.tls)
         client.set_credentials("SIMPLE", user=self.user(login), password=password)
         result = False
-        async with self.client.connect(is_async=True) as conn:
+        async with client.connect(is_async=True) as conn:
             user = await conn.whoami()
             logger.info(f"Authentication {user}")
             result = True
