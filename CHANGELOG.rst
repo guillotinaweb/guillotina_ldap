@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a5 (unreleased)
+1.0.0a5 (2020-11-18)
 --------------------
 
 - Allowing settings password on 2nd phase
