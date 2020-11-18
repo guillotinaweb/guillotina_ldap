@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a6 (unreleased)
+1.0.0a6 (2020-11-18)
 --------------------
 
 - Fixing login LDAP search API.
