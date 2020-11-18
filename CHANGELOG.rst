@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a6 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fixing login LDAP search API.
+  [bloodbare]
 
 
 1.0.0a5 (2020-11-18)
