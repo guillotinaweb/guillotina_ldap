@@ -18,6 +18,8 @@ async def run(token_data, payload):
 
     if "password" in token_data:
         await util.set_password(token_data["id"], token_data['password'])
+    elif "password" in payload:
+        await util.set_password(token_data["id"], payload['password'])
 
     user = util.create_g_user(token_data['id'])
 

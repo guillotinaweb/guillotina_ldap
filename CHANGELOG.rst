@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Allowing settings password on 2nd phase
+  [bloodbare]
 
 
 1.0.0a4 (2020-11-16)
