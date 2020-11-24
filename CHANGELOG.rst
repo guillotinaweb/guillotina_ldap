@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a7 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fixing reset password API.
+  [bloodbare]
 
 
 1.0.0a6 (2020-11-18)

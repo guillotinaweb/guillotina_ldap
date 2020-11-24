@@ -1,4 +1,6 @@
 from guillotina.auth.users import GuillotinaUser
+from guillotina.component import get_utility
+from guillotina_ldap.interfaces import ILDAPUsers
 
 
 class LDAPGuillotinaUser(GuillotinaUser):
