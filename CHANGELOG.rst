@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a7 (unreleased)
+1.0.0a7 (2020-11-24)
 --------------------
 
 - Fixing reset password API.
