@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a8 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Support for Name storage.
+  [bloodbare]
 
 
 1.0.0a7 (2020-11-24)

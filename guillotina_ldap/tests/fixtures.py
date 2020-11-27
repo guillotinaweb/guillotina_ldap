@@ -103,6 +103,7 @@ def ldap():
     anna['sn'] = "Wu"
     anna['cn'] = "Wu"
     anna['uid'] = "anna"
+    anna['displayName'] = "Anna"
     conn.add(anna)
     anna.change_attribute("userPassword", LDAPModOp.REPLACE, "newsecret")
     anna.modify()

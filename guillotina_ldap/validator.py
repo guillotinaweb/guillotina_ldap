@@ -13,8 +13,8 @@ class LDAPPasswordValidator:
         except bonsai.AuthenticationError:
             return None
 
-        if result:
-            user = users.create_g_user(token['id'])
+        if result is not None:
+            user = users.create_g_user(token['id'], result)
             return user
         else:
             return None

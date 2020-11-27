@@ -18,9 +18,10 @@ class LDAPUserIdentifier:
             # No user id in the token
             return None
 
-        if not await users.exists(user_id):
+        name = await users.exists(user_id)
+        if name is None:
             # User id does not correspond to any existing user folder
             return None
 
-        user = users.create_g_user(user_id)
+        user = users.create_g_user(user_id, name)
         return user

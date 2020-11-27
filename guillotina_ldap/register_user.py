@@ -12,7 +12,7 @@ async def run(token_data, payload):
     util = get_utility(ILDAPUsers)
 
     try:
-        await util.add_user(token_data["id"])
+        await util.add_user(token_data["id"], token_data.get("fullname", ""))
     except bonsai.AlreadyExists:
         pass
 
@@ -21,7 +21,7 @@ async def run(token_data, payload):
     elif "password" in payload:
         await util.set_password(token_data["id"], payload['password'])
 
-    user = util.create_g_user(token_data['id'])
+    user = util.create_g_user(token_data['id'], token_data.get("fullname", ""))
 
     jwt_token, data = authenticate_user(user.id, timeout=app_settings["jwt"]["token_expiration"])
     await notify(UserLogin(user, jwt_token))

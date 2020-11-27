@@ -7,6 +7,7 @@ import asyncio
 user_data = {
     "id": "foobar",
     "password": "password",
+    "fullname": "Foobar 2"
 }
 
 user_data2 = {
@@ -28,7 +29,7 @@ async def test_ldap_auth(ldap, container_install_requester):
 
         util = get_utility(IMailer)
         assert "http://localhost:4200/@@validation" in util.mail[0]["html"]
-        assert "<p>Registering user foobar</p>" in util.mail[0]["html"]
+        assert "Registering user Foobar 2" in util.mail[0]["html"]
 
         token = (
             util.mail[0]["html"]
@@ -69,7 +70,7 @@ async def test_ldap_auth_2nd(ldap, container_install_requester):
 
         util = get_utility(IMailer)
         assert "http://localhost:4200/@@validation" in util.mail[0]["html"]
-        assert "<p>Registering user foobar</p>" in util.mail[0]["html"]
+        assert "<p>Registering user User Foo</p>" in util.mail[0]["html"]
 
         token = (
             util.mail[0]["html"]
