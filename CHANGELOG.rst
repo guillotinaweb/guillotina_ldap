@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a9 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fixing bug on upgrade.
+  [bloodbare]
 
 
 1.0.0a8 (2020-11-27)

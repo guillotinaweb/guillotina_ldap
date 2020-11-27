@@ -70,7 +70,10 @@ class LDAPUtility:
         async with self.client.connect(is_async=True) as conn:
             results = await conn.search(self.user(login), 0)
             if len(results) > 0:
-                exist = results[0][self.attribute_fullname][0]
+                if self.attribute_fullname in results[0]:
+                    exist = results[0][self.attribute_fullname][0]
+                else:
+                    exist = login
         LOCAL_CACHE[cache_key] = exist
         return exist
 
@@ -97,7 +100,7 @@ class LDAPUtility:
             results = await conn.search(self.user(login), 0)
             for res in results:
                 yield {
-                    'fullname': res[self.attribute_fullname][0],
+                    'fullname': res.get(self.attribute_fullname, [login])[0],
                     'id': res[self.attribute_users][0]
                 }
 
@@ -130,5 +133,8 @@ class LDAPUtility:
             search = await conn.search(self.user(login), 0)
             entry = search[0]
             logger.info(f"Authentication {user}")
-            result = entry[self.attribute_fullname][0]
+            if self.attribute_fullname in entry:
+                result = entry[self.attribute_fullname][0]
+            else:
+                result = login
         return result
