@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a9 (unreleased)
+1.0.0a9 (2020-11-27)
 --------------------
 
 - Fixing bug on upgrade.
