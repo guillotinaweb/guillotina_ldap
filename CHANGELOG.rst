@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a8 (unreleased)
+1.0.0a8 (2020-11-27)
 --------------------
 
 - Support for Name storage.
