@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a11 (unreleased)
+1.0.0a11 (2021-01-15)
 ---------------------
 
 - Fixing Cache bug
