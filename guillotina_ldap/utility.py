@@ -1,6 +1,7 @@
 from bonsai import LDAPEntry
 from bonsai import LDAPClient
 from bonsai import LDAPModOp
+from bonsai import LDAPSearchScope
 from bonsai.errors import ConnectionError
 from guillotina_ldap.model import LDAPGuillotinaUser
 from guillotina_ldap import logger
@@ -68,13 +69,14 @@ class LDAPUtility:
 
         exist = None
         async with self.client.connect(is_async=True) as conn:
-            results = await conn.search(self.user(login), 0)
+            results = await conn.search(self.user(login), LDAPSearchScope.BASE)
             if len(results) > 0:
                 if self.attribute_fullname in results[0]:
                     exist = results[0][self.attribute_fullname][0]
                 else:
                     exist = login
-        LOCAL_CACHE[cache_key] = exist
+        if exist is not None:
+            LOCAL_CACHE[cache_key] = exist
         return exist
 
     def create_g_user(self, login, name): 
@@ -97,7 +99,7 @@ class LDAPUtility:
 
     async def search_user(self, login):
         async with self.client.connect(is_async=True) as conn:
-            results = await conn.search(self.user(login), 0)
+            results = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             for res in results:
                 yield {
                     'fullname': res.get(self.attribute_fullname, [login])[0],
@@ -106,20 +108,27 @@ class LDAPUtility:
 
     async def set_password(self, login, password):
         async with self.client.connect(is_async=True) as conn:
-            search = await conn.search(self.user(login), 0)
+            search = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             entry = search[0]
             entry.change_attribute("userPassword", LDAPModOp.REPLACE, password)
             await entry.modify()
 
-    async def add_user(self, login, fullname=""):
+    async def add_user(self, login, fullname=None):
         obj = LDAPEntry(self.user(login))
         obj['objectClass'] = ['top', self.objecttype] # Must set schemas to get a valid LDAP entry.
         obj[self.attribute_users] = login
-        obj[self.attribute_fullname] = fullname
+
+        if fullname is None:
+            obj[self.attribute_fullname] = login
+        else:
+            obj[self.attribute_fullname] = fullname
+
         if self.objecttype == 'inetOrgPerson' and self.attribute_users != 'sn':
             obj['sn'] = login
+
         if self.objecttype == 'inetOrgPerson' and self.attribute_users != 'cn':
             obj['cn'] = login
+
         obj[self.attribute_users] = login
         async with self.client.connect(is_async=True) as conn:
             await conn.add(obj)
@@ -130,7 +139,7 @@ class LDAPUtility:
         result = None
         async with client.connect(is_async=True) as conn:
             user = await conn.whoami()
-            search = await conn.search(self.user(login), 0)
+            search = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             entry = search[0]
             logger.info(f"Authentication {user}")
             if self.attribute_fullname in entry:
