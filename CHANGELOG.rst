@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.0.0a10 (unreleased)
+1.0.0a10 (2021-01-15)
 ---------------------
 
 - Allow testing import.
