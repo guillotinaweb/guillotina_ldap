@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a11 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Fixing Cache bug
+  [bloodbare]
 
 
 1.0.0a10 (2021-01-15)
