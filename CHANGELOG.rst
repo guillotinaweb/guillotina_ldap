@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a10 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Allow testing import.
+  [bloodbare]
 
 
 1.0.0a9 (2020-11-27)
