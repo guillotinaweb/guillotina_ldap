@@ -2,9 +2,7 @@ from guillotina import configure
 import glob
 import yaml
 import logging
-import bonsai
 
-bonsai.utils.set_connect_async(True)
 
 logger = logging.getLogger('guillotina_ldap')
 
