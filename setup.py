@@ -29,7 +29,7 @@ setup(
     install_requires=[
         "setuptools",
         "guillotina>=6.0",
-        "bonsai",
+        "bonsai>=1.5.3",
         "retry"
     ],
     extras_require={"test": test_reqs},

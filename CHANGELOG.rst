@@ -1,10 +1,11 @@
 CHANGELOG
 =========
 
-1.0.0a12 (unreleased)
+1.0.0a12 (2024-06-04)
 ---------------------
 
-- Nothing changed yet.
+- Update bonsai to 1.5.3
+  [rboixaderg]
 
 
 1.0.0a11 (2021-01-15)
