@@ -1,7 +1,13 @@
 CHANGELOG
 =========
 
-1.0.0a12 (unreleased)
+1.0.0a13 (unreleased)
+---------------------
+
+- Nothing changed yet.
+
+
+1.0.0a12 (2025-09-23)
 ---------------------
 
 - Getting result from self.attribute_users in the validate users.
