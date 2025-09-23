@@ -14,7 +14,8 @@ LOCAL_CACHE = LRU(100)
 
 
 def get_user_cache_key(login):
-    return '{}-{}'.format(login, int(time.time() // USER_CACHE_DURATION))
+    return "{}-{}".format(login, int(time.time() // USER_CACHE_DURATION))
+
 
 class LDAPUtility:
     client = None
@@ -22,16 +23,16 @@ class LDAPUtility:
 
     def __init__(self, settings={}, loop=None):
         self.loop = loop
-        self.ldap = app_settings['ldap']
-        self.host = self.ldap.get('host')
-        self.tls = self.ldap.get('tls', False)
-        self.attribute_users = self.ldap.get('attribute_users', 'uid')
-        self.attribute_fullname = self.ldap.get('attribute_fullname', 'displayName')
-        self.managers = self.ldap.get('managers', [])
-        self.objecttype = self.ldap.get('objecttype', 'inetOrgPerson')
-        self.base_users = self.ldap.get('usersdn')
-        self.managerdn = self.ldap.get('managerdn')
-        self.managerpwd = self.ldap.get('managerpwd')
+        self.ldap = app_settings["ldap"]
+        self.host = self.ldap.get("host")
+        self.tls = self.ldap.get("tls", False)
+        self.attribute_users = self.ldap.get("attribute_users", "uid")
+        self.attribute_fullname = self.ldap.get("attribute_fullname", "displayName")
+        self.managers = self.ldap.get("managers", [])
+        self.objecttype = self.ldap.get("objecttype", "inetOrgPerson")
+        self.base_users = self.ldap.get("usersdn")
+        self.managerdn = self.ldap.get("managerdn")
+        self.managerpwd = self.ldap.get("managerpwd")
         self.initialized = False
 
     async def initialize(self, app):
@@ -41,11 +42,13 @@ class LDAPUtility:
             raise KeyError("Host is not defined on app settings")
 
         self.client = LDAPClient(self.host, self.tls)
-        if  self.managerdn is not None:
-            self.client.set_credentials("SIMPLE", user=self.managerdn, password=self.managerpwd)
+        if self.managerdn is not None:
+            self.client.set_credentials(
+                "SIMPLE", user=self.managerdn, password=self.managerpwd
+            )
             retries = 0
             conected = None
-            while(retries < 3 and conected is None):
+            while retries < 3 and conected is None:
                 try:
                     async with self.client.connect(is_async=True) as conn:
                         conected = await conn.whoami()
@@ -79,14 +82,14 @@ class LDAPUtility:
             LOCAL_CACHE[cache_key] = exist
         return exist
 
-    def create_g_user(self, login, name): 
+    def create_g_user(self, login, name):
         user = LDAPGuillotinaUser(user_id=login)
-        user._roles['guillotina.Member'] = 1
-        user._properties['fullname'] = name
+        user._roles["guillotina.Member"] = 1
+        user._properties["fullname"] = name
 
         if login in self.managers:
-            user._roles['guillotina.ContainerAdmin'] = 1
-        
+            user._roles["guillotina.ContainerAdmin"] = 1
+
         user._ldap_provider = 1
         return user
 
@@ -102,8 +105,8 @@ class LDAPUtility:
             results = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             for res in results:
                 yield {
-                    'fullname': res.get(self.attribute_fullname, [login])[0],
-                    'id': res[self.attribute_users][0]
+                    "fullname": res.get(self.attribute_fullname, [login])[0],
+                    "id": res[self.attribute_users][0],
                 }
 
     async def set_password(self, login, password):
@@ -115,7 +118,10 @@ class LDAPUtility:
 
     async def add_user(self, login, fullname=None):
         obj = LDAPEntry(self.user(login))
-        obj['objectClass'] = ['top', self.objecttype] # Must set schemas to get a valid LDAP entry.
+        obj["objectClass"] = [
+            "top",
+            self.objecttype,
+        ]  # Must set schemas to get a valid LDAP entry.
         obj[self.attribute_users] = login
 
         if fullname is None:
@@ -123,11 +129,11 @@ class LDAPUtility:
         else:
             obj[self.attribute_fullname] = fullname
 
-        if self.objecttype == 'inetOrgPerson' and self.attribute_users != 'sn':
-            obj['sn'] = login
+        if self.objecttype == "inetOrgPerson" and self.attribute_users != "sn":
+            obj["sn"] = login
 
-        if self.objecttype == 'inetOrgPerson' and self.attribute_users != 'cn':
-            obj['cn'] = login
+        if self.objecttype == "inetOrgPerson" and self.attribute_users != "cn":
+            obj["cn"] = login
 
         obj[self.attribute_users] = login
         async with self.client.connect(is_async=True) as conn:
@@ -136,14 +142,17 @@ class LDAPUtility:
     async def validate_user(self, login, password):
         client = LDAPClient(self.host, self.tls)
         client.set_credentials("SIMPLE", user=self.user(login), password=password)
-        result = None
+        login_id = None
+        name = None
         async with client.connect(is_async=True) as conn:
             user = await conn.whoami()
             search = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             entry = search[0]
             logger.info(f"Authentication {user}")
+            if self.attribute_users in entry:
+                login_id = entry[self.attribute_users][0]
             if self.attribute_fullname in entry:
-                result = entry[self.attribute_fullname][0]
-            else:
-                result = login
-        return result
+                name = entry[self.attribute_fullname][0]
+            if login_id is None:
+                login_id = login
+        return login_id, name
