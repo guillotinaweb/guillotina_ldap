@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a12 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Getting result from self.attribute_users in the validate users.
+  [nilbacardit26]
 
 
 1.0.0a11 (2021-01-15)
