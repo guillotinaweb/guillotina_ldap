@@ -154,5 +154,5 @@ class LDAPUtility:
             if self.attribute_fullname in entry:
                 name = entry[self.attribute_fullname][0]
             if login_id is None:
-                login_id = None
+                login_id = login
         return login_id, name
