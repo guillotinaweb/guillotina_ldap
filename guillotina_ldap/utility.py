@@ -142,16 +142,17 @@ class LDAPUtility:
     async def validate_user(self, login, password):
         client = LDAPClient(self.host, self.tls)
         client.set_credentials("SIMPLE", user=self.user(login), password=password)
-        result = None
+        login_id = None
+        name = None
         async with client.connect(is_async=True) as conn:
             user = await conn.whoami()
             search = await conn.search(self.user(login), LDAPSearchScope.SUBTREE)
             entry = search[0]
             logger.info(f"Authentication {user}")
             if self.attribute_users in entry:
-                result = entry[self.attribute_users][0]
+                login_id = entry[self.attribute_users][0]
             if self.attribute_fullname in entry:
-                result = entry[self.attribute_fullname][0]
-            else:
-                result = login
-        return result
+                name = entry[self.attribute_fullname][0]
+            if login_id is None:
+                login_id = None
+        return login_id, name
