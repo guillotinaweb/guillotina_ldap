@@ -7,6 +7,7 @@ jobs:
 
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
         database: ["DUMMY", "postgres"]
@@ -27,9 +28,9 @@ jobs:
 
       - name: Pre-checks
         run: |
-          pip install flake8 "isort<5" black==22.10.0
+          pip install flake8==7.1.1 isort==5.13.2 black==22.10.0
           flake8 guillotina_ldap --config=setup.cfg
-          isort -c -rc guillotina_ldap
+          isort --check-only --diff guillotina_ldap
           black --check --verbose guillotina_ldap
 
       - name: Run tests
