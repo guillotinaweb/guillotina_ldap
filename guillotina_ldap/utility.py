@@ -1,13 +1,15 @@
-from bonsai import LDAPEntry
 from bonsai import LDAPClient
+from bonsai import LDAPEntry
 from bonsai import LDAPModOp
 from bonsai import LDAPSearchScope
 from bonsai.errors import ConnectionError
-from guillotina_ldap.model import LDAPGuillotinaUser
-from guillotina_ldap import logger
 from guillotina import app_settings
+from guillotina_ldap import logger
+from guillotina_ldap.model import LDAPGuillotinaUser
 from lru import LRU
+
 import time
+
 
 USER_CACHE_DURATION = 100
 LOCAL_CACHE = LRU(100)

@@ -1,17 +1,15 @@
 from guillotina.component import get_utility
 from guillotina.interfaces import IMailer
-import pytest
-import json
-import asyncio
 
-user_data = {
-    "id": "foobar",
-    "password": "password",
-    "fullname": "Foobar 2"
-}
+import asyncio
+import json
+import pytest
+
+
+user_data = {"id": "foobar", "password": "password", "fullname": "Foobar 2"}
 
 user_data2 = {
-    "id": "foobar",
+    "id": "foobar2",
     "fullname": "User Foo",
 }
 
@@ -23,7 +21,10 @@ async def test_ldap_auth(ldap, container_install_requester):
     async with container_install_requester as requester:
         # Add a user first
         resp, status_code = await requester(
-            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(user_data)
+            "POST",
+            "/db/guillotina/@users",
+            authenticated=False,
+            data=json.dumps(user_data),
         )
         assert status_code == 200
 
@@ -38,7 +39,10 @@ async def test_ldap_auth(ldap, container_install_requester):
         )
 
         resp, status_code = await requester(
-            "POST", f"/db/guillotina/@validate/{token}", data=json.dumps({}), authenticated=False
+            "POST",
+            f"/db/guillotina/@validate/{token}",
+            data=json.dumps({}),
+            authenticated=False,
         )
         assert "token" in resp
         assert status_code == 200
@@ -51,10 +55,14 @@ async def test_ldap_auth(ldap, container_install_requester):
         )
         assert status_code == 200
 
+        # Guillotina rejects registration when the user already exists
         resp, status_code = await requester(
-            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(user_data)
+            "POST",
+            "/db/guillotina/@users",
+            authenticated=False,
+            data=json.dumps(user_data),
         )
-        assert status_code == 200
+        assert status_code == 401
 
 
 @pytest.mark.parametrize("install_addons", [["email_validation"]])
@@ -64,7 +72,10 @@ async def test_ldap_auth_2nd(ldap, container_install_requester):
     async with container_install_requester as requester:
         # Add a user first
         resp, status_code = await requester(
-            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(user_data2)
+            "POST",
+            "/db/guillotina/@users",
+            authenticated=False,
+            data=json.dumps(user_data2),
         )
         assert status_code == 200
 
@@ -79,7 +90,10 @@ async def test_ldap_auth_2nd(ldap, container_install_requester):
         )
 
         resp, status_code = await requester(
-            "POST", f"/db/guillotina/@validate/{token}", data=json.dumps({"password": "password"}), authenticated=False
+            "POST",
+            f"/db/guillotina/@validate/{token}",
+            data=json.dumps({"password": "password"}),
+            authenticated=False,
         )
         assert "token" in resp
         assert status_code == 200
@@ -88,11 +102,15 @@ async def test_ldap_auth_2nd(ldap, container_install_requester):
             "POST",
             "/db/guillotina/@login",
             authenticated=False,
-            data=json.dumps({"username": "foobar", "password": "password"}),
+            data=json.dumps({"username": "foobar2", "password": "password"}),
         )
         assert status_code == 200
 
+        # Guillotina rejects registration when the user already exists
         resp, status_code = await requester(
-            "POST", "/db/guillotina/@users", authenticated=False, data=json.dumps(user_data)
+            "POST",
+            "/db/guillotina/@users",
+            authenticated=False,
+            data=json.dumps(user_data2),
         )
-        assert status_code == 200
+        assert status_code == 401

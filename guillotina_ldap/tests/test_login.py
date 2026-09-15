@@ -1,11 +1,10 @@
-import inspect
-import json
-
-import jwt
-import pytest
-
 from guillotina.testing import TESTING_SETTINGS
 from guillotina_ldap.model import LDAPGuillotinaUser
+
+import inspect
+import json
+import jwt
+import pytest
 
 
 @pytest.mark.asyncio

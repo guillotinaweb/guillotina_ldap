@@ -4,7 +4,6 @@ from guillotina_ldap.interfaces import ILDAPUsers
 
 
 class LDAPGuillotinaUser(GuillotinaUser):
-
     async def set_password(self, password, old_password=None, oldpassword=None):
         # Guillotina calls old_password=; keep oldpassword for backwards compatibility.
         previous = old_password if old_password is not None else oldpassword

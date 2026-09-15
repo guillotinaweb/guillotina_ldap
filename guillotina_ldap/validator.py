@@ -1,6 +1,6 @@
 from guillotina.component import get_utility
 from guillotina_ldap.interfaces import ILDAPUsers
-from guillotina.auth import find_user
+
 import bonsai
 
 
