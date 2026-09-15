@@ -4,7 +4,8 @@ CHANGELOG
 1.0.0a13 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Accept Guillotina ``old_password`` keyword on LDAP user set_password.
+  [rboixaderg]
 
 
 1.0.0a12 (2025-09-23)
