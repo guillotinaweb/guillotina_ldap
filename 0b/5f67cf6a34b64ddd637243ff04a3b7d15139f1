@@ -1,0 +1,19 @@
+CHANGELOG.rst
+  s_d827aaec9a43c5::t_f279ceaa71a1fe 10-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "0b5f67cf6a34b64ddd637243ff04a3b7d15139f1",
+  "prompts": {},
+  "sessions": {
+    "s_d827aaec9a43c5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e7f00a0e-ff92-4c4e-8a75-ac04820c4d69",
+        "model": "unknown"
+      },
+      "human_author": "Roger Boixader Güell <rboixaderg@gmail.com>"
+    }
+  }
+}
