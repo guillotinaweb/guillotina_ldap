@@ -1,0 +1,23 @@
+guillotina_ldap/tests/test_login.py
+  s_d99db6ac77827f::t_bf634986ed5c47 1,3,5,8,33-69
+CHANGELOG.rst
+  s_d99db6ac77827f::t_1a69be04b3363d 7-8
+guillotina_ldap/model.py
+  s_d99db6ac77827f::t_2b69e87d456d56 8-10,13,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "a105d4f1424b747ace583f480b4a43f323487ddb",
+  "prompts": {},
+  "sessions": {
+    "s_d99db6ac77827f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "b61675e9-a187-4cd1-9e16-7be539463cc9",
+        "model": "grok-4.6"
+      },
+      "human_author": "Roger Boixader Güell <rboixaderg@gmail.com>"
+    }
+  }
+}
