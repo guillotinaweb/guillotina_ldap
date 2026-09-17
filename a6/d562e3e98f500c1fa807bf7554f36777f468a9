@@ -1,0 +1,16 @@
+CHANGELOG.rst
+  h_1727aeeb492b30 4-9
+VERSION
+  h_1727aeeb492b30 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "a6d562e3e98f500c1fa807bf7554f36777f468a9",
+  "prompts": {},
+  "humans": {
+    "h_1727aeeb492b30": {
+      "author": "Roger Boixader Güell <rboixaderg@gmail.com>"
+    }
+  }
+}
