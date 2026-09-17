@@ -1,12 +1,12 @@
 from guillotina import configure
-import glob
-import yaml
-import logging
+
 import bonsai
+import logging
+
 
 bonsai.utils.set_connect_async(True)
 
-logger = logging.getLogger('guillotina_ldap')
+logger = logging.getLogger("guillotina_ldap")
 
 
 app_settings = {
@@ -20,11 +20,15 @@ app_settings = {
     "auth_validation_tasks": {
         "register_user": {
             "executor": "guillotina_ldap.register_user",
-            "schema": {"title": "Register new user", "type": "object", "properties": {}},
+            "schema": {
+                "title": "Register new user",
+                "type": "object",
+                "properties": {},
+            },
         },
     },
 }
 
+
 def includeme(root, settings):
     configure.scan("guillotina_ldap.utility")
-

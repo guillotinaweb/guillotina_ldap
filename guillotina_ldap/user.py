@@ -1,5 +1,5 @@
-from guillotina.interfaces import IPrincipal
 from guillotina.component import get_utility
+from guillotina.interfaces import IPrincipal
 from guillotina_ldap.interfaces import ILDAPUsers
 
 import typing

@@ -1,10 +1,13 @@
 GUILLOTINA_LDAP
 ===============
 
-LDAP Auth backend for guillotina.
+LDAP Auth backend for Guillotina.
 
 
-Example config.json entry:
+Configuration
+-------------
+
+Add this to your Guillotina config file:
 
 .. code-block:: json
 
@@ -22,14 +25,24 @@ Example config.json entry:
     }
 
 
+Development and testing
+-----------------------
 
-Getting started with development
---------------------------------
+Requires Python 3.10 or newer (CI runs 3.10, 3.11 and 3.12). Docker is needed
+for the OpenLDAP test fixture.
 
-Using pip (requires Python > 3.7):
+.. code-block:: bash
 
-.. code-block:: shell
+    python3 -m venv .
+    ./bin/pip install -e ".[test]"
+    ./bin/pip install pre-commit
+    ./bin/pre-commit install
+    ./bin/pytest --capture=no --tb=native -v guillotina_ldap
 
-    python3.7 -m venv .
-    ./bin/pip install -e .[test]
-    pre-commit install
+
+Formatting is enforced by pre-commit (black, isort, flake8) on every commit,
+and by GitHub Actions on push. To run the checks manually:
+
+.. code-block:: bash
+
+    pre-commit run --all-files

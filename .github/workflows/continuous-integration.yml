@@ -1,0 +1,39 @@
+name: guillotina_ldap
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        database: ["DUMMY", "postgres"]
+    env:
+      DATABASE: ${{ matrix.database }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libldap2-dev libsasl2-dev
+
+      - name: Pre-checks
+        run: |
+          pip install flake8==7.1.1 isort==5.13.2 black==22.10.0
+          flake8 guillotina_ldap --config=setup.cfg
+          isort --check-only --diff guillotina_ldap
+          black --check --verbose guillotina_ldap
+
+      - name: Run tests
+        run: |
+          pip install -e ".[test]"
+          pytest --capture=no --tb=native -v guillotina_ldap --cov=guillotina_ldap --cov-report term-missing --cov-append guillotina_ldap

@@ -4,7 +4,14 @@ CHANGELOG
 1.0.0a13 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Accept Guillotina ``old_password`` keyword on LDAP user set_password.
+  [rboixaderg]
+
+- Add GitHub Actions CI and pre-commit (black, isort, flake8) on Python 3.10–3.12.
+  [rboixaderg]
+
+- Pin test extras to the Guillotina 7.x stack and fix registration tests for duplicate users.
+  [rboixaderg]
 
 
 1.0.0a12 (2025-09-23)
